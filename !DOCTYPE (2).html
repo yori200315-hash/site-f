@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Fennecs - Voyage & Évasion</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --sable: #F4EBD0;
+            --emeraude: #005F45;
+            --blanc-casse: #FAFAFA;
+            --noir-deep: #0A0A0A;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--blanc-casse);
+            color: var(--noir-deep);
+            overflow-x: hidden;
+            transition: direction 0.3s ease;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+        .ar-text { font-family: 'Cairo', sans-serif; }
+
+        /* --- HEADER & NAV --- */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+            transition: padding 0.3s ease;
+        }
+        .logo { color: white; font-size: 24px; font-weight: 700; letter-spacing: 2px; display: flex; align-items: center; gap: 10px;}
+        .logo i { font-size: 28px; color: var(--sable); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--sable); }
+        .lang-switch { background: var(--glass-bg); border: 1px solid var(--glass-border); color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: background 0.3s; }
+        .lang-switch:hover { background: var(--emeraude); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh; position: relative;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: url('https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            text-align: center; color: white;
+        }
+        .hero::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); }
+        .hero-content { position: relative; z-index: 10; max-width: 900px; padding: 0 20px; }
+        .hero h1 { font-size: 5rem; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); line-height: 1.1; }
+        .hero p { font-size: 1.2rem; margin-bottom: 40px; font-weight: 300; letter-spacing: 1px; }
+
+        /* --- SEARCH BAR (GLASSMORPHISM) --- */
+        .search-bar {
+            position: relative; z-index: 10; margin-top: -40px;
+            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 60px;
+            padding: 15px 30px; display: flex; gap: 20px; width: 80%; max-width: 1000px; margin-left: auto; margin-right: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .search-input { flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 16px; }
+        .search-input::placeholder { color: rgba(255,255,255,0.7); }
+        .search-btn { background: var(--emeraude); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: 600; transition: transform 0.2s, background 0.3s; }
+        .search-btn:hover { background: #007a5a; transform: scale(1.05); }
+
+        /* --- DESTINATIONS VIP --- */
+        .destinations { padding: 100px 50px; background: var(--blanc-casse); }
+        .section-title { text-align: center; font-size: 3rem; color: var(--noir-deep); margin-bottom: 60px; }
+        .dest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .dest-card {
+            position: relative; height: 500px; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+        .dest-card:hover { transform: translateY(-10px); }
+        .dest-bg { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .dest-card:hover .dest-bg { transform: scale(1.1); }
+        .dest-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            color: white;
+        }
+        .dest-tag { background: var(--emeraude); padding: 5px 15px; border-radius: 20px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: inline-block; }
+        .dest-overlay h3 { font-size: 2.5rem; margin-bottom: 10px; }
+        .dest-overlay p { font-size: 0.9rem; opacity: 0.9; margin-bottom: 20px; }
+        .dest-btn { color: var(--sable); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--sable); padding-bottom: 5px; transition: color 0.3s; }
+        .dest-btn:hover { color: white; border-color: white; }
+
+        /* --- VISA SECTION --- */
+        .visa-section { padding: 100px 50px; background: var(--sable); text-align: center; }
+        .visa-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
+        .visa-card { background: rgba(255,255,255,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.6); padding: 40px 30px; border-radius: 15px; transition: transform 0.3s; }
+        .visa-card:hover { transform: translateY(-5px); }
+        .visa-icon { font-size: 3rem; color: var(--emeraude); margin-bottom: 20px; }
+        .visa-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .download-btn { display: inline-block; margin-top: 20px; background: var(--emeraude); color: white; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-size: 14px; }
+
+        /* --- QUOTE SECTION --- */
+        .quote-section { padding: 100px 50px; background: var(--emeraude); color: white; text-align: center; }
+        .quote-form { max-width: 600px; margin: 40px auto 0; display: flex; flex-direction: column; gap: 15px; }
+        .form-input { padding: 15px; border-radius: 10px; border: none; font-size: 16px; outline: none; }
+        .submit-btn { background: var(--sable); color: var(--emeraude); font-weight: 700; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+        .submit-btn:hover { background: white; }
+
+        /* --- FOOTER --- */
+        footer { background: var(--noir-deep); color: white; padding: 50px; text-align: center; }
+
+        /* --- WHATSAPP FLOATING --- */
+        .whatsapp-btn {
+            position: fixed; bottom: 30px; right: 30px; z-index: 999;
+            width: 60px; height: 60px; background: #25D366; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: white; font-size: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s; text-decoration: none;
+        }
+        .whatsapp-btn:hover { transform: scale(1.1); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .nav-links { display: none; } /* Mobile menu would go here */
+            .hero h1 { font-size: 3rem; }
+            .search-bar { flex-direction: column; border-radius: 20px; gap: 10px; width: 90%; }
+            .dest-grid, .visa-grid { grid-template-columns: 1fr; }
+            .dest-card { height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-paw"></i> LES FENNECS
+        </div>
+        <div class="nav-links">
+            <a href="#destinations">Destinations</a>
+            <a href="#visa">Assistance Visa</a>
+            <a href="#devis">Devis</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <button class="lang-switch" id="langToggle">عربية / AR</button>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 data-fr="Où rêvez-vous de vous envoler ?" data-ar="أين تحلم بالطيران؟">Où rêvez-vous de vous envoler ?</h1>
+            <p data-fr="Découvrez le monde avec l'accompagnement premium de Les Fennecs. Omra, tourisme ou long séjour, nous façonnons votre voyage sur mesure." data-ar="اكتشف العالم مع الرعاية المتميزة من الفنك. عمرة أو سياحة أو إقامة طويلة، نصنع رحلتك على القياس.">Découvrez le monde avec l'accompagnement premium de Les Fennecs. Omra, tourisme ou long séjour, nous façonnons votre voyage sur mesure.</p>
+        </div>
+    </section>
+
+    <!-- SEARCH BAR -->
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Destination (Mecque, Paris, Montréal...)" data-fr-placeholder="Destination (Mecque, Paris, Montréal...)" data-ar-placeholder="الوجهة (مكة، باريس، مونتريال...)">
+        <input type="date" class="search-input" style="color: white;">
+        <select class="search-input" style="background: transparent; color: white;">
+            <option value="" style="color:black">Type de voyage</option>
+            <option value="spirituel" style="color:black">Spirituel</option>
+            <option value="tourisme" style="color:black">Tourisme</option>
+            <option value="affaires" style="color:black">Affaires</option>
+        </select>
+        <button class="search-btn" data-fr="Rechercher" data-ar="بحث">Rechercher</button>
+    </div>
+
+    <!-- DESTINATIONS VIP -->
+    <section class="destinations" id="destinations">
+        <h2 class="section-title" data-fr="Nos Essentiels, Votre Évasion" data-ar="أساسياتنا، مغامرتك">Nos Essentiels, Votre Évasion</h2>
+        <div class="dest-grid">
+            
+            <!-- CARTE MECQUE -->
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1974&auto=format&fit=crop" class="dest-bg" alt="La Mecque">
+                <div class="dest-overlay">
+                    <span class="dest-tag" data-fr="Spirituel" data-ar="روحاني">Spirituel</span>
+                    <h3 data-fr="La Mecque" data-ar="مكة المكرمة">La Mecque</h3>
+                    <p data-fr="Le voyage du cœur. Omra & Hajj, Hôtels premium proches du Haram, Assistance Visa exclusive." data-ar="رحلة القلب. عمرة وحج، فنادق فاخرة قريبة من الحرم، مساعدة فيزا حصرية.">Le voyage du cœur. Omra & Hajj, Hôtels premium proches du Haram, Assistance Visa exclusive.</p>
+                    <a href="#" class="dest-btn" data-fr="Découvrir" data-ar="اكتشف">Découvrir</a>
+                </div>
+            </div>
+
+            <!-- CARTE FRANCE -->
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop" class="dest-bg" alt="France">
+                <div class="dest-overlay">
+                    <span class="dest-tag" data-fr="Tourisme & Études" data-ar="سياحة ودراسة">Tourisme & Études</span>
+                    <h3 data-fr="France" data-ar="فرنسا">France</h3>
+                    <p data-fr="L'élégance à la française. Séjours Paris & Côte d'Azur, Assistance Visa Tourisme & Étudiant." data-ar="الأناقة الفرنسية. إقامة في باريس وكوت دازور، مساعدة فيزا سياحة وطالب.">L'élégance à la française. Séjours Paris & Côte d'Azur, Assistance Visa Tourisme & Étudiant.</p>
+                    <a href="#" class="dest-btn" data-fr="Planifier" data-ar="خطط">Planifier</a>
+                </div>
+            </div>
+
+            <!-- CARTE CANADA -->
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=2011&auto=format&fit=crop" class="dest-bg" alt="Canada">
+                <div class="dest-overlay">
+                    <span class="dest-tag" data-fr="Grandes Espaces" data-ar="مساحات شاسعة">Grandes Espaces</span>
+                    <h3 data-fr="Canada" data-ar="كندا">Canada</h3>
+                    <p data-fr="L'appel des grands espaces. Voyages de découverte, Séjours longue durée, Accompagnement eTA/Visa." data-ar="نداء المساحات الشاسعة. رحلات استكشاف، إقامة طويلة، مرافقة eTA/تأشيرة.">L'appel des grands espaces. Voyages de découverte, Séjours longue durée, Accompagnement eTA/Visa.</p>
+                    <a href="#" class="dest-btn" data-fr="Explorer" data-ar="استكشف">Explorer</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- VISA SECTION -->
+    <section class="visa-section" id="visa">
+        <h2 class="section-title" data-fr="Le monde à portée de main" data-ar="العالم في متناول اليد">Le monde à portée de main</h2>
+        <p data-fr="Les formalités simplifiées pour voyager l'esprit tranquille." data-ar="إجراءات مبسطة للسفر براحة بال.">Les formalités simplifiées pour voyager l'esprit tranquille.</p>
+        <div class="visa-grid">
+            <div class="visa-card">
+                <i class="fa-solid fa-passport visa-icon"></i>
+                <h3 data-fr="Conseil & Éligibilité" data-ar="النصح والأهلية">Conseil & Éligibilité</h3>
+                <p data-fr="Étude gratuite de votre profil pour maximiser vos chances d'obtention du visa." data-ar="دراسة مجانية لملفك لتعظيم فرص حصولك على التأشيرة.">Étude gratuite de votre profil pour maximiser vos chances d'obtention du visa.</p>
+            </div>
+            <div class="visa-card">
+                <i class="fa-solid fa-file-pdf visa-icon"></i>
+                <h3 data-fr="Checklist Interactive" data-ar="قائمة المستندات التفاعلية">Checklist Interactive</h3>
+                <p data-fr="Téléchargez la liste exacte des documents requis selon votre destination." data-ar="قم بتحميل القائمة الدقيقة للمستندات المطلوبة حسب وجهتك.">Téléchargez la liste exacte des documents requis selon votre destination.</p>
+                <a href="#" class="download-btn" data-fr="Télécharger PDF" data-ar="تحميل PDF">Télécharger PDF</a>
+            </div>
+            <div class="visa-card">
+                <i class="fa-solid fa-user-tie visa-icon"></i>
+                <h3 data-fr="Suivi Personnalisé" data-ar="متابعة شخصية">Suivi Personnalisé</h3>
+                <p data-fr="Un agent dédié vous accompagne de la constitution du dossier jusqu'au visa." data-ar="وكيل مخصص يرافقك من تكوين الملف حتى التأشيرة.">Un agent dédié vous accompagne de la constitution du dossier jusqu'au visa.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUOTE SECTION -->
+    <section class="quote-section" id="devis">
+        <h2 style="font-size: 3rem; margin-bottom: 10px;" data-fr="Prêt à décoller ?" data-ar="مستعد للإقلاع؟">Prêt à décoller ?</h2>
+        <p data-fr="Obtenez votre devis gratuit en 2 minutes." data-ar="احصل على عرض أسعارك المجاني في دقيقتين.">Obtenez votre devis gratuit en 2 minutes.</p>
+        <form class="quote-form">
+            <input type="text" class="form-input" placeholder="Votre nom complet" required>
+            <input type="tel" class="form-input" placeholder="Numéro WhatsApp" required>
+            <select class="form-input" style="color: black;">
+                <option value="">Destination souhaitée</option>
+                <option value="mecque">La Mecque (Omra/Hajj)</option>
+                <option value="france">France</option>
+                <option value="canada">Canada</option>
+                <option value="autre">Autre</option>
+            </select>
+            <button type="submit" class="form-input submit-btn" data-fr="Recevoir mon devis" data-ar="تلقي عرض الأسعار الخاص بي">Recevoir mon devis</button>
+        </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="logo" style="justify-content: center; margin-bottom: 20px;">
+            <i class="fa-solid fa-paw"></i> LES FENNECS
+        </div>
+        <p>&copy; 2023 Les Fennecs Voyage. Tous droits réservés.</p>
+    </footer>
+
+    <!-- WHATSAPP BUTTON -->
+    <a href="https://wa.me/213XXXXXXXXX?text=Bonjour%20Les%20Fennecs%2C%20je%20souhaite%20des%20informations" target="_blank" class="whatsapp-btn">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // --- LANGUAGE TOGGLE LOGIC ---
+        const langToggle = document.getElementById('langToggle');
+        let isFrench = true;
+
+        langToggle.addEventListener('click', () => {
+            isFrench = !isFrench;
+            const html = document.querySelector('html');
+            
+            if (!isFrench) {
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'ar');
+                document.body.classList.add('ar-text');
+                langToggle.textContent = "FR / Français";
+            } else {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'fr');
+                document.body.classList.remove('ar-text');
+                langToggle.textContent = "عربية / AR";
+            }
+
+            // Update text content
+            document.querySelectorAll('[data-fr]').forEach(el => {
+                el.textContent = el.getAttribute(isFrench ? 'data-fr' : 'data-ar');
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-fr-placeholder]').forEach(el => {
+                el.placeholder = el.getAttribute(isFrench ? 'data-fr-placeholder' : 'data-ar-placeholder');
+            });
+        });
+
+        // --- SMOOTH SCROLL FOR NAV ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
